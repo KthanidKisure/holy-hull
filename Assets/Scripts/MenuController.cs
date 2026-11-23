@@ -8,6 +8,15 @@ public class MenuController : MonoBehaviour
     public string nextScene = "Level1";
     public bool resetGame = true;
     public Text blinkText;
+    public Text bestText;
+
+    void Start()
+    {
+        Time.timeScale = 1f;        if (bestText != null && GameState.instance != null)
+        {
+            bestText.text = "HIGH SCORE  " + GameState.instance.highScore;
+        }
+    }
 
     void Update()
     {

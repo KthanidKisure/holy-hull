@@ -12,8 +12,12 @@ public class MoveShip : MonoBehaviour
     public GameObject bullet;
     public float moveSpeed = 6f;
     public float rotationSpeed = 180f;
-    public float fireDelay = 0.35f;
+    public float fireDelay = 0.3f;
     public float invincibleTime = 1.5f;
+
+    // engine flame, two frames swapped while thrusting
+    public SpriteRenderer flame;
+    public Sprite[] flameFrames;
 
     // malfunctions, switched on and off by the LevelManager
     public bool controlsReversed = false;
@@ -21,43 +25,58 @@ public class MoveShip : MonoBehaviour
     public bool enginePraying = false;
 
     private Rigidbody2D myRigid;
-    private ParticleSystem myPart;
     private SpriteRenderer myRenderer;
     private float lastFired;
     private float lastHit = -10f;
+    private bool thrusting;
 
     void Start()
     {
         myRigid = this.GetComponent<Rigidbody2D>();
-        myPart = this.GetComponentInChildren<ParticleSystem>();
         myRenderer = this.GetComponent<SpriteRenderer>();
+        // start each level invincible for a moment so nothing can hit you on spawn
+        lastHit = Time.time;
     }
 
     void Update()
     {
+        if (PauseMenu.paused)
+        {
+            return;
+        }
+
         float turn = rotationSpeed;
         if (controlsReversed)
         {
             turn = -rotationSpeed;
         }
 
-        if (Input.GetKey(left))
+        // arrow keys work too
+        if (Input.GetKey(left) || Input.GetKey(KeyCode.LeftArrow))
         {
             this.transform.Rotate(new Vector3(0f, 0f, turn) * Time.deltaTime);
         }
-        if (Input.GetKey(right))
+        if (Input.GetKey(right) || Input.GetKey(KeyCode.RightArrow))
         {
             this.transform.Rotate(new Vector3(0f, 0f, -turn) * Time.deltaTime);
         }
 
-        if (Input.GetKey(fire) && !cannonJammed)
+        thrusting = (Input.GetKey(up) || Input.GetKey(KeyCode.UpArrow)) && !enginePraying;
+
+        // space or left mouse button fires
+        if ((Input.GetKey(fire) || Input.GetMouseButton(0)) && !cannonJammed)
         {
             if (Time.time > lastFired + fireDelay)
             {
-                Instantiate(bullet, this.transform.position + this.transform.up * 0.85f, this.transform.rotation);
+                Instantiate(bullet, this.transform.position + this.transform.up * 0.95f, this.transform.rotation);
                 GameState.instance.PlaySound(GameState.instance.shootSound);
-                lastFired = Time.time;
-            }
+                lastFired = Time.time;            }
+        }
+
+        flame.enabled = thrusting;
+        if (thrusting)
+        {
+            flame.sprite = flameFrames[Mathf.FloorToInt(Time.time * 12) % flameFrames.Length];
         }
 
         // flash while invincible after a hit
@@ -67,17 +86,9 @@ public class MoveShip : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (Input.GetKey(up) && !enginePraying)
+        if (thrusting)
         {
             myRigid.AddForce(this.transform.up * moveSpeed);
-            if (!myPart.isPlaying)
-            {
-                myPart.Play();
-            }
-        }
-        else
-        {
-            myPart.Stop();
         }
     }
 
@@ -97,6 +108,7 @@ public class MoveShip : MonoBehaviour
             return;
         }
         lastHit = Time.time;
+        CameraShake.Shake(0.25f, 0.15f);
         GameState.instance.LoseFaith();
     }
 }

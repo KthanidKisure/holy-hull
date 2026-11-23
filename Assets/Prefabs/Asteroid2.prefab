@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3292637632696190920
+--- !u!1 &1337278720285884054
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,13 +8,13 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4918487709966927043}
-  - component: {fileID: 8306265791651237853}
-  - component: {fileID: 7640265059987697416}
-  - component: {fileID: 5131892348475686139}
-  - component: {fileID: 9170558603422741497}
-  - component: {fileID: 5400714900128222167}
-  - component: {fileID: 4478581505740736480}
+  - component: {fileID: 2713891138024284801}
+  - component: {fileID: 2040170177334677093}
+  - component: {fileID: 7299375226352050586}
+  - component: {fileID: 2653450131969790479}
+  - component: {fileID: 2355511695063157781}
+  - component: {fileID: 3167026219441582922}
+  - component: {fileID: 545456254119119185}
   m_Layer: 0
   m_Name: Asteroid2
   m_TagString: Asteroid
@@ -22,13 +22,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4918487709966927043
+--- !u!4 &2713891138024284801
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3292637632696190920}
+  m_GameObject: {fileID: 1337278720285884054}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -37,14 +37,14 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &8306265791651237853
+--- !u!212 &2040170177334677093
 SpriteRenderer:
   serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3292637632696190920}
+  m_GameObject: {fileID: 1337278720285884054}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -97,14 +97,14 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
---- !u!50 &7640265059987697416
+--- !u!50 &7299375226352050586
 Rigidbody2D:
   serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3292637632696190920}
+  m_GameObject: {fileID: 1337278720285884054}
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
@@ -124,13 +124,13 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &5131892348475686139
+--- !u!58 &2653450131969790479
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3292637632696190920}
+  m_GameObject: {fileID: 1337278720285884054}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -160,13 +160,13 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.6
---- !u!198 &9170558603422741497
+--- !u!198 &2355511695063157781
 ParticleSystem:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3292637632696190920}
+  m_GameObject: {fileID: 1337278720285884054}
   serializedVersion: 8
   lengthInSec: 5
   simulationSpeed: 1
@@ -207,7 +207,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 3
       minMaxState: 0
-      scalar: 0.5
+      scalar: 0.4
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -242,7 +242,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 0.66, g: 0.55, b: 0.45, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -306,7 +306,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 3
       minMaxState: 0
-      scalar: 0.1
+      scalar: 0.08
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -529,7 +529,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 3
       minMaxState: 0
-      scalar: 40
+      scalar: 30
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -725,7 +725,7 @@ ParticleSystem:
         m_RotationOrder: 4
     separateAxes: 0
   ColorModule:
-    enabled: 1
+    enabled: 0
     gradient:
       serializedVersion: 2
       minMaxState: 1
@@ -733,8 +733,8 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 0.75, b: 0.4, a: 1}
-        key1: {r: 0.45, g: 0.35, b: 0.3, a: 0}
+        key0: {r: 1, g: 1, b: 1, a: 1}
+        key1: {r: 1, g: 1, b: 1, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -2345,14 +2345,14 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!199 &5400714900128222167
+--- !u!199 &3167026219441582922
 ParticleSystemRenderer:
   serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3292637632696190920}
+  m_GameObject: {fileID: 1337278720285884054}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -2425,13 +2425,13 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
---- !u!114 &4478581505740736480
+--- !u!114 &545456254119119185
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3292637632696190920}
+  m_GameObject: {fileID: 1337278720285884054}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df47e499d3527f84bb984455d91beaa4, type: 3}
@@ -2440,3 +2440,8 @@ MonoBehaviour:
   rotz: 0
   mx: 0
   my: 0
+  pieces:
+  - {fileID: 8588860108485065567, guid: 6f6fc30d6ed2f1143a449b23ec802c3a, type: 3}
+  - {fileID: 6287508832930714595, guid: 2cbb827eca9e7d541ade450c56257df8, type: 3}
+  explosion: {fileID: 113367256607549983, guid: de46be611d5173b47b490039bcc419f5, type: 3}
+  points: 10

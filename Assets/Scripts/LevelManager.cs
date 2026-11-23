@@ -7,6 +7,7 @@ public class LevelManager : MonoBehaviour
 {
     public GameObject[] asteroidPrefabs;
     public GameObject hereticPrefab;
+    public GameObject bossPrefab;
     public GameObject relicPrefab;
     public GameObject warp;
 
@@ -23,6 +24,8 @@ public class LevelManager : MonoBehaviour
     public Text scoreText;
     public GameObject alertPanel;
     public Text alertText;
+    public Image alertPortrait;
+    public Sprite navigatorFace, gunnerFace, engineerFace;
 
     private MoveShip ship;
     private float nextMalfunction;
@@ -49,10 +52,18 @@ public class LevelManager : MonoBehaviour
             Instantiate(hereticPrefab, RandomSpotAwayFromShip(), Quaternion.identity);
         }
 
-        Instantiate(relicPrefab, RandomSpotAwayFromShip(), Quaternion.identity);
+        // on level 3 the Arch-Heretic guards the relic
+        Vector3 relicSpot = RandomSpotAwayFromShip();
+        Instantiate(relicPrefab, relicSpot, Quaternion.identity);
+        string goal = "\nFind the relic!";
+        if (bossPrefab != null)
+        {
+            Instantiate(bossPrefab, relicSpot + new Vector3(0f, 1.5f, 0f), Quaternion.identity);
+            goal = "\nThe Arch-Heretic guards the relic!";
+        }
 
         nextMalfunction = Time.time + malfunctionEvery;
-        ShowAlert(levelName + "\nFind the relic!", 3f);
+        ShowAlert(levelName + goal, 3f, null);
     }
 
     void Update()
@@ -82,12 +93,14 @@ public class LevelManager : MonoBehaviour
     {
         warp.SetActive(true);
         EndMalfunction();
-        ShowAlert("Relic secured!\nFly into the warp", 3f);
+        ShowAlert("Relic secured!\nFly into the warp", 3f, null);
     }
 
-    private void ShowAlert(string message, float seconds)
+    private void ShowAlert(string message, float seconds, Sprite face)
     {
         alertText.text = message;
+        alertPortrait.enabled = face != null;
+        alertPortrait.sprite = face;
         alertPanel.SetActive(true);
         alertEnds = Time.time + seconds;
     }
@@ -99,17 +112,17 @@ public class LevelManager : MonoBehaviour
         if (pick == 0)
         {
             ship.controlsReversed = true;
-            ShowAlert("Brother Navigator is steering backwards!\nCONTROLS REVERSED", malfunctionLength);
+            ShowAlert("Brother Navigator is steering backwards!\nCONTROLS REVERSED", malfunctionLength, navigatorFace);
         }
         else if (pick == 1)
         {
             ship.cannonJammed = true;
-            ShowAlert("The gunner is polishing the cannon!\nCANNON JAMMED", malfunctionLength);
+            ShowAlert("Brother Gunner is polishing the cannon!\nCANNON JAMMED", malfunctionLength, gunnerFace);
         }
         else
         {
             ship.enginePraying = true;
-            ShowAlert("The engineer stopped to pray!\nNO THRUST", malfunctionLength);
+            ShowAlert("Brother Engineer has stopped to pray!\nNO THRUST", malfunctionLength, engineerFace);
         }
         nextMalfunction = Time.time + malfunctionEvery + Random.Range(-3f, 3f);
     }

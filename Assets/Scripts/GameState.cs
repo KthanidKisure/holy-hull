@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-// Holds everything that has to survive a scene change: faith (lives), score and relics.
-// The object is called GameState and is kept alive with DontDestroyOnLoad (Practical 7).
+// Holds everything that has to survive a scene change: faith (lives), score, relics,
+// volume settings and the high score. Kept alive with DontDestroyOnLoad (Practical 7).
 public class GameState : MonoBehaviour
 {
     public static GameState instance;
@@ -13,15 +13,21 @@ public class GameState : MonoBehaviour
     public int faith;
     public int score;
     public int relics;
+    public int highScore;
+
+    public float musicVolume = 0.35f;
+    public float sfxVolume = 0.8f;
 
     public AudioClip warpSound;
     public AudioClip relicSound;
     public AudioClip hitSound;
     public AudioClip explosionSound;
     public AudioClip shootSound;
+    public AudioClip pickupSound;
     public AudioClip music;
 
-    private AudioSource myAudio;
+    private AudioSource sfxSource;
+    private AudioSource musicSource;
 
     void Awake()
     {
@@ -33,16 +39,21 @@ public class GameState : MonoBehaviour
         }
         instance = this;
         DontDestroyOnLoad(this.gameObject);
+
+        // saved settings from last time (PlayerPrefs)
+        musicVolume = PlayerPrefs.GetFloat("MusicVolume", musicVolume);
+        sfxVolume = PlayerPrefs.GetFloat("SfxVolume", sfxVolume);
+        highScore = PlayerPrefs.GetInt("HighScore", 0);
+
         // first AudioSource plays effects, the second one loops the music
         AudioSource[] sources = this.GetComponents<AudioSource>();
-        myAudio = sources[0];
-        if (sources.Length > 1 && music != null)
-        {
-            sources[1].clip = music;
-            sources[1].loop = true;
-            sources[1].volume = 0.35f;
-            sources[1].Play();
-        }
+        sfxSource = sources[0];
+        musicSource = sources[1];
+        musicSource.clip = music;
+        musicSource.loop = true;
+        musicSource.Play();
+        SetMusicVolume(musicVolume);
+        SetSfxVolume(sfxVolume);
         ResetGame();
     }
 
@@ -68,6 +79,12 @@ public class GameState : MonoBehaviour
         }
     }
 
+    public void AddFaith()
+    {
+        faith = Mathf.Min(faith + 1, startFaith);
+        PlaySound(pickupSound);
+    }
+
     public void CollectRelic()
     {
         relics += 1;
@@ -75,11 +92,38 @@ public class GameState : MonoBehaviour
         PlaySound(relicSound);
     }
 
+    // returns true if this run beat the old high score
+    public bool SaveHighScore()
+    {
+        if (score > highScore)
+        {
+            highScore = score;
+            PlayerPrefs.SetInt("HighScore", highScore);
+            PlayerPrefs.Save();
+            return true;
+        }
+        return false;
+    }
+
+    public void SetMusicVolume(float v)
+    {
+        musicVolume = v;
+        musicSource.volume = v;
+        PlayerPrefs.SetFloat("MusicVolume", v);
+    }
+
+    public void SetSfxVolume(float v)
+    {
+        sfxVolume = v;
+        sfxSource.volume = v;
+        PlayerPrefs.SetFloat("SfxVolume", v);
+    }
+
     public void PlaySound(AudioClip clip)
     {
         if (clip != null)
         {
-            myAudio.PlayOneShot(clip);
+            sfxSource.PlayOneShot(clip);
         }
     }
 }
